@@ -13,23 +13,18 @@ int regularH(char x[]){
     valor = x[i];
     switch (estado) {
       case S: switch (valor){
-        case 'a': estado = M; result = True;  break;
-        case 'b': estado = O; result = True;  break;
+        case 'a': estado = N; result = True;  break;
+        case 'b': estado = M; result = True;  break;
         case '$': estado = $; result = True; break;
       } break;
       case M: switch (valor){
-        case 'a': estado = S; result = True;  break;
-        case 'b': estado = O; result = True;  break;
+        case 'a': estado = N; result = True;  break;
+        case 'b': estado = N; result = True;  break;
         case '$': estado = $; result = False; break;
       } break;
-      case O: switch (valor){
+      case N: switch (valor){
         case 'a': estado = M; result = True;break;
-        case 'b': estado = $; result = False; break;
-        case '$': estado = $; result = False; break;
-      } break;
-      case P: switch (valor){
-        case 'a': estado = S; result = True; break;
-        case 'b': estado = $; result = False; break;
+        case 'b': estado = M; result = False; break;
         case '$': estado = $; result = False; break;
       } break;
     }
