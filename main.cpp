@@ -2,9 +2,9 @@
 
 using namespace std;
 
-// h) L(G) = {x | x  (a, b)* e o número de a’s é par e x não possui b’s
-//    consecutivos}
-int regularH(char x[]){
+// j) L(G) = {x | x  (a, b, c)* e o número de a’s é par
+// e o número de c’s é impar}
+int regularJ(char x[]){
   int estado = 1;
   bool result = True;
   char valor;
@@ -14,17 +14,32 @@ int regularH(char x[]){
     switch (estado) {
       case S: switch (valor){
         case 'a': estado = N; result = True;  break;
-        case 'b': estado = M; result = True;  break;
-        case '$': estado = $; result = True; break;
+        case 'b': estado = S; result = True;  break;
+        case 'c': estado = O; result = True;  break;
+        case '$': estado = $; result = False; break;
       } break;
       case M: switch (valor){
         case 'a': estado = N; result = True;  break;
-        case 'b': estado = N; result = True;  break;
-        case '$': estado = $; result = False; break;
+        case 'b': estado = M; result = True;  break;
+        case 'c': estado = P; result = True;  break;
+        case '$': estado = $; result = True; break;
       } break;
       case N: switch (valor){
-        case 'a': estado = M; result = True;break;
-        case 'b': estado = M; result = False; break;
+        case 'a': estado = M; result = True; break;
+        case 'b': estado = N; result = True; break;
+        case 'c': estado = O; result = True; break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case O: switch (valor){
+        case 'a': estado = M; result = True; break;
+        case 'b': estado = O; result = True; break;
+        case 'c': estado = N; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case P: switch (valor){
+        case 'a': estado = M; result = True; break;
+        case 'b': estado = O; result = True; break;
+        case 'c': estado = N; result = True; break;
         case '$': estado = $; result = False; break;
       } break;
     }
@@ -41,8 +56,9 @@ int main(int argc, char const *argv[]) {
   // printf("E - %s\n", regularE("0101011$")?"TRUE":"FALSE");
   // printf("F - %s\n", regularF("abcd$")?"TRUE":"FALSE");
   // printf("G - %s\n", regularG("abbccdaa$")?"TRUE":"FALSE");
+  // printf("H - %s\n", regularH("aabaababa$")?"TRUE":"FALSE");
   // printf("I - %s\n", regularI("0110111$")?"TRUE":"FALSE");
-  printf("H - %s\n", regularH("aabaab$")?"TRUE":"FALSE");
+  printf("J - %s\n", regularJ("caacaccac$")?"TRUE":"FALSE");
 
   return 0;
 }

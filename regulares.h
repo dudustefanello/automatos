@@ -280,7 +280,45 @@ int regularG(char x[]){
   return result;
 }
 
+// h) L(G) = {x | x  (a, b)* e o número de a’s é par e x não possui b’s
+//    consecutivos}
+int regularH(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
 
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case 'a': estado = M; result = True;  break;
+        case 'b': estado = N; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case 'a': estado = O; result = True;  break;
+        case 'b': estado = P; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case N: switch (valor){
+        case 'a': estado = M; result = True;  break;
+        case 'b': estado = $; result = False; break;
+        case '$': estado = $; result = True;  break;
+      } break;
+      case O: switch (valor){
+        case 'a': estado = M; result = True; break;
+        case 'b': estado = N; result = True; break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case P: switch (valor){
+        case 'a': estado = N; result = True;  break;
+        case 'b': estado = $; result = False; break;
+        case '$': estado = $; result = False; break;
+      } break;
+    }
+  }
+  return result;
+}
 
 // i) L(G) = (x | x  (0, 1)+  e se x começa com 0 então o número de 0’s é par,
 //    senão o número de 0’s é ímpar}
