@@ -1,6 +1,5 @@
-#include "config.h"
+#include "regulares.h"
 
-// a) L(G) = { x | x  (a,b)* onde o número de b’s é par}
 int regularA(char x[]){
   int estado = 1;
   bool result = True;
@@ -29,7 +28,6 @@ int regularA(char x[]){
   return result;
 }
 
-// b) L(G) = { x | x  (a,b)* onde o número de b’s é impar}
 int regularB(char x[]){
   int estado = 1;
   bool result = True;
@@ -53,7 +51,6 @@ int regularB(char x[]){
   return result;
 }
 
-// c) L(G) = {x | x  (a,b,c)* onde ocorra pelo menos dois padrões ‘abc’}
 int regularC(char x[]){
   int estado = 1;
   bool result = True;
@@ -103,7 +100,6 @@ int regularC(char x[]){
   return result;
 }
 
-// d) L(G) = {x | x  (a,b,c)* onde ocorra pelo menos um padrão ‘ac’}
 int regularD(char x[]){
   int estado = 1;
   bool result = True;
@@ -135,7 +131,6 @@ int regularD(char x[]){
   return result;
 }
 
-// e) L(G) = {x | x  (0, 1)* e o número de 1’s é múltiplo de 3}
 int regularE(char x[]){
   int estado = 1;
   bool result = True;
@@ -152,21 +147,23 @@ int regularE(char x[]){
       case M: switch (valor){
         case '0': estado = M; result = True; break;
         case '1': estado = N; result = True; break;
-        case '$': estado = $; result = True; break;
+        case '$': estado = $; result = False; break;
       } break;
       case N: switch (valor){
         case '0': estado = N; result = True;  break;
-        case '1': estado = M; result = True;  break;
+        case '1': estado = O; result = True;  break;
         case '$': estado = $; result = False; break;
+      } break;
+      case O: switch (valor){
+        case '0': estado = O; result = True;  break;
+        case '1': estado = M; result = True;  break;
+        case '$': estado = $; result = True; break;
       } break;
     }
   }
   return result;
 }
 
-// f) L(G) = { x | x  (a,b,c,d)+ onde a soma de a’s e c’s
-//    é impar se x começa com a ou a soma de a’s e d’s
-//    é par se x começa com b. Se x inicia por c ou d não existe restrição}
 int regularF(char x[]){
   int estado = 1;
   bool result = True;
@@ -222,9 +219,6 @@ int regularF(char x[]){
   return result;
 }
 
-// g) L(G) = { x | x  (a,b,c,d)+ onde a soma de b’s e c’s é impar
-//    se x começa com a, ou a soma de a’s e d’s
-//    é par se x começa com b. Se x inicia por c ou de não existe restrição}
 int regularG(char x[]){
   int estado = 1;
   bool result = True;
@@ -245,14 +239,14 @@ int regularG(char x[]){
         case 'b': estado = N; result = True; break;
         case 'c': estado = N; result = True; break;
         case 'd': estado = M; result = True; break;
-        case '$': estado = $; result = True; break;
+        case '$': estado = $; result = False; break;
       } break;
       case N: switch (valor){
         case 'a': estado = N; result = True;  break;
         case 'b': estado = M; result = True;  break;
         case 'c': estado = M; result = True;  break;
         case 'd': estado = N; result = True;  break;
-        case '$': estado = $; result = False; break;
+        case '$': estado = $; result = True; break;
       } break;
       case O: switch (valor){
         case 'a': estado = P; result = True; break;
@@ -280,8 +274,6 @@ int regularG(char x[]){
   return result;
 }
 
-// h) L(G) = {x | x  (a, b)* e o número de a’s é par e x não possui b’s
-//    consecutivos}
 int regularH(char x[]){
   int estado = 1;
   bool result = True;
@@ -320,8 +312,6 @@ int regularH(char x[]){
   return result;
 }
 
-// i) L(G) = (x | x  (0, 1)+  e se x começa com 0 então o número de 0’s é par,
-//    senão o número de 0’s é ímpar}
 int regularI(char x[]){
   int estado = 1;
   bool result = True;
@@ -353,6 +343,301 @@ int regularI(char x[]){
       case P: switch (valor){
         case '0': estado = N; result = True; break;
         case '1': estado = P; result = True; break;
+        case '$': estado = $; result = True; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularJ(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case 'a': estado = N; result = True;  break;
+        case 'b': estado = S; result = True;  break;
+        case 'c': estado = M; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case 'a': estado = O; result = True;  break;
+        case 'b': estado = M; result = True;  break;
+        case 'c': estado = S; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case N: switch (valor){
+        case 'a': estado = S; result = True; break;
+        case 'b': estado = N; result = True; break;
+        case 'c': estado = O; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case O: switch (valor){
+        case 'a': estado = M; result = True; break;
+        case 'b': estado = O; result = True; break;
+        case 'c': estado = N; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularK(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case 'a': estado = M; result = True;  break;
+        case 'b': estado = N; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case 'a': estado = S; result = True;  break;
+        case 'b': estado = $; result = False;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case N: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = O; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case O: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = N; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case P: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = O; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case Q: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = N; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularL(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case 'a': estado = M; result = True;  break;
+        case 'b': estado = N; result = True; break;
+        case 'c': estado = Q; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case M: switch (valor){
+        case 'a': estado = S; result = True;  break;
+        case 'b': estado = O; result = True;  break;
+        case 'c': estado = P; result = True;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case N: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = N; result = True;  break;
+        case 'c': estado = Q; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case O: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = O; result = True;  break;
+        case 'c': estado = P; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case P: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = $; result = False;  break;
+        case 'c': estado = Q; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case Q: switch (valor){
+        case 'a': estado = $; result = False; break;
+        case 'b': estado = $; result = False;  break;
+        case 'c': estado = P; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularM(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case '0': estado = N; result = True;  break;
+        case '1': estado = M; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case '0': estado = M; result = True;  break;
+        case '1': estado = S; result = True;  break;
+        case '$': estado = $; result = True;  break;
+      } break;
+      case N: switch (valor){
+        case '0': estado = S; result = True; break;
+        case '1': estado = N; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularN(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case '0': estado = S; result = True;  break;
+        case '1': estado = M; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case '0': estado = M; result = True;  break;
+        case '1': estado = N; result = True;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case N: switch (valor){
+        case '0': estado = N; result = True; break;
+        case '1': estado = O; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case O: switch (valor){
+        case '0': estado = O; result = True;  break;
+        case '1': estado = P; result = True;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case P: switch (valor){
+        case '0': estado = P; result = True; break;
+        case '1': estado = M; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularO(char x[]){
+  //Nao compreendi a regra
+}
+
+int regularP(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case '0': estado = M; result = True;  break;
+        case '1': estado = N; result = True; break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case M: switch (valor){
+        case '0': estado = S; result = True;  break;
+        case '1': estado = O; result = True;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case N: switch (valor){
+        case '0': estado = O; result = True; break;
+        case '1': estado = P; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case O: switch (valor){
+        case '0': estado = N; result = True;  break;
+        case '1': estado = Q; result = True;  break;
+        case '$': estado = $; result = False;  break;
+      } break;
+      case P: switch (valor){
+        case '0': estado = Q; result = True; break;
+        case '1': estado = R; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case Q: switch (valor){
+        case '0': estado = P; result = True; break;
+        case '1': estado = T; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+      case R: switch (valor){
+        case '0': estado = T; result = True;  break;
+        case '1': estado = N; result = True;  break;
+        case '$': estado = $; result = True;  break;
+      } break;
+      case T: switch (valor){
+        case '0': estado = R; result = True; break;
+        case '1': estado = O; result = True;  break;
+        case '$': estado = $; result = False; break;
+      } break;
+    }
+  }
+  return result;
+}
+
+int regularQ(char x[]){
+  int estado = 1;
+  bool result = True;
+  char valor;
+
+  for (size_t i = 0; i < strlen(x) || estado > 0; i++) {
+    valor = x[i];
+    switch (estado) {
+      case S: switch (valor){
+        case 'a': estado = S; result = True;  break;
+        case 'b': estado = S; result = True;  break;
+        case 'c': estado = S; result = True;  break;
+        case 'd': estado = S; result = True;  break;
+        case 'e': estado = M; result = True;  break;
+        case 'f': estado = S; result = True;  break;
+        case 'i': estado = N; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case M: switch (valor){
+        case 'a': estado = $; result = False;  break;
+        case 'b': estado = M; result = True;  break;
+        case 'c': estado = M; result = True;  break;
+        case 'd': estado = M; result = True;  break;
+        case 'e': estado = M; result = True;  break;
+        case 'f': estado = M; result = True;  break;
+        case 'i': estado = N; result = True;  break;
+        case '$': estado = $; result = True; break;
+      } break;
+      case N: switch (valor){
+        case 'a': estado = $; result = False;  break;
+        case 'b': estado = N; result = True;  break;
+        case 'c': estado = N; result = True;  break;
+        case 'd': estado = N; result = True;  break;
+        case 'e': estado = $; result = False;  break;
+        case 'f': estado = N; result = True;  break;
+        case 'i': estado = N; result = True;  break;
         case '$': estado = $; result = True; break;
       } break;
     }
